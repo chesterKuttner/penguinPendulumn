@@ -1,5 +1,6 @@
 import pygame
 import math
+import time
 
 pygame.init()
 
@@ -45,14 +46,20 @@ class circle:
         if tempX == 0:
             ACO = math.radians(90)
         else:
-            ACO = math.asin(tempY/tempX)
+            ACO = math.atan(tempY/tempX)
         BCO = ACO-rad
 
         print('ACO', math.degrees(ACO))
-        print('BCO', math.degrees(BCO))
+        # print('BCO', math.degrees(BCO))
 
-        self.x = 100*math.sin(BCO)+point[0]
-        self.y = 100*math.cos(BCO)+point[1]
+        if tempY>0:
+            self.x = 100*math.sin(BCO)+point[0]
+        else:
+            self.x = -100*math.sin(BCO)+point[0]
+        if tempX>0:
+           self.y = 100*math.cos(BCO)+point[1]
+        else:
+            self.y = -100*math.cos(BCO)+point[1]
 
 
 class platform:
@@ -101,6 +108,8 @@ while running:
     # flip() the display to put your work on screen
     pygame.display.flip()
 
-    clock.tick(30)  # limits FPS to 60
+    clock.tick(60)  # limits FPS to 60
+
+    time.sleep(0.5)
 
 pygame.quit()
