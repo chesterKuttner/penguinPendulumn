@@ -6,7 +6,7 @@ pygame.init()
 
 screenWidth = 1280
 screenHeight = 720
-pendulumnLen = 100
+pendulumnLen = 0
 
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 clock = pygame.time.Clock()
@@ -20,6 +20,8 @@ class circle:
         self.colour = (15, 66, 51)
         self.radius = 10
         self.width = 4
+        self.xVelocity = 0
+        self.yVelovity=0
 
     def draw(self):
         pygame.draw.circle(surface=screen, color=self.colour,
@@ -37,6 +39,8 @@ class circle:
         self.y = self.y+y
 
     def shiftAngle(self, point, rad):
+
+        #doesn't work
         # necessary to get xy co-ordibnatesaround the origin
         tempX = self.x - screenWidth/2
         tempY = self.y - screenHeight/2
@@ -46,20 +50,30 @@ class circle:
         if tempX == 0:
             ACO = math.radians(90)
         else:
-            ACO = math.atan(tempY/tempX)
-        BCO = ACO-rad
+            ACO = abs(math.atan(tempY/tempX))
+
+        if ACO>rad:
+            BCO = ACO-rad
+        else:
+            BCO = rad-ACO
 
         print('ACO', math.degrees(ACO))
         # print('BCO', math.degrees(BCO))
-
+        
         if tempY>0:
-            self.x = 100*math.sin(BCO)+point[0]
+            self.x = 100*math.cos(BCO)+point[0]
         else:
-            self.x = -100*math.sin(BCO)+point[0]
-        if tempX>0:
-           self.y = 100*math.cos(BCO)+point[1]
+            self.x = -100*math.cos(BCO)+point[0]
+
+        if tempX>0:    
+            self.y = 100*math.sin(BCO)+point[1]
         else:
-            self.y = -100*math.cos(BCO)+point[1]
+            self.y = -100*math.sin(BCO)+point[1]
+    def applyForce (self,magnitude, direction):
+        vertical = magnitude*math.sin(direction)
+        horizontal = magnitude*math.cos(direction)
+
+        self.setPos(self.x+horizontal,self.y-vertical)
 
 
 class platform:
@@ -90,7 +104,7 @@ def drawAll():
     myCirc.draw()
     myPlat.draw()
     pygame.draw.line(surface=screen, color=(247, 152, 98),
-                     start_pos=myPlat.getPos(), end_pos=myCirc.getPos(), width=5)
+                     start_pos=myPlat.getPos(), end_pos=myCirc.getPos(), width=3)
 
 
 while running:
@@ -103,13 +117,15 @@ while running:
     # fill the screen with a color to wipe away anything from last frame
     drawAll()
 
-    myCirc.shiftAngle(point=myPlat.getPos(), rad=math.radians(1))
+    #myCirc.shiftAngle(point=myPlat.getPos(), rad=math.radians(1))
+
+    myCirc.force(magnitude=3,direction=math.radians(185))
 
     # flip() the display to put your work on screen
     pygame.display.flip()
 
     clock.tick(60)  # limits FPS to 60
 
-    time.sleep(0.5)
+    time.sleep(0.1)
 
 pygame.quit()
