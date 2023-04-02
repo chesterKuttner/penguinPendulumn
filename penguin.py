@@ -6,7 +6,7 @@ pygame.init()
 
 screenWidth = 1280
 screenHeight = 720
-pendulumnLen = 0
+pendulumnLen = 100
 
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 clock = pygame.time.Clock()
@@ -38,37 +38,15 @@ class circle:
         self.x = self.x+x
         self.y = self.y+y
 
-    def shiftAngle(self, point, rad):
-
-        #doesn't work
-        # necessary to get xy co-ordibnatesaround the origin
-        tempX = self.x - screenWidth/2
-        tempY = self.y - screenHeight/2
-
-        print(tempX, tempY)
-
-        if tempX == 0:
-            ACO = math.radians(90)
-        else:
-            ACO = abs(math.atan(tempY/tempX))
-
-        if ACO>rad:
-            BCO = ACO-rad
-        else:
-            BCO = rad-ACO
-
-        print('ACO', math.degrees(ACO))
-        # print('BCO', math.degrees(BCO))
+    def setAngle(self, point, angle):
         
-        if tempY>0:
-            self.x = 100*math.cos(BCO)+point[0]
-        else:
-            self.x = -100*math.cos(BCO)+point[0]
+        self.x = pendulumnLen*math.cos(angle)+point[0]     
+        self.y = pendulumnLen*math.sin(angle)+point[1]
 
-        if tempX>0:    
-            self.y = 100*math.sin(BCO)+point[1]
-        else:
-            self.y = -100*math.sin(BCO)+point[1]
+    def getAngle(self,point):
+        return math.acos((self.x-point[0])/pendulumnLen)
+        
+
     def applyForce (self,magnitude, direction):
         vertical = magnitude*math.sin(direction)
         horizontal = magnitude*math.cos(direction)
@@ -106,6 +84,8 @@ def drawAll():
     pygame.draw.line(surface=screen, color=(247, 152, 98),
                      start_pos=myPlat.getPos(), end_pos=myCirc.getPos(), width=3)
 
+myCirc.setAngle(point=myPlat.getPos(), angle = math.radians(5))
+print(math.degrees(myCirc.getAngle(myPlat.getPos())))
 
 while running:
     # poll for events
@@ -117,11 +97,11 @@ while running:
     # fill the screen with a color to wipe away anything from last frame
     drawAll()
 
-    #myCirc.shiftAngle(point=myPlat.getPos(), rad=math.radians(1))
+    
 
-    myCirc.force(magnitude=3,direction=math.radians(185))
+    # myCirc.force(magnitude=3,direction=math.radians(185))
 
-    # flip() the display to put your work on screen
+
     pygame.display.flip()
 
     clock.tick(60)  # limits FPS to 60
