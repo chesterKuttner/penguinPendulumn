@@ -20,8 +20,7 @@ class circle:
         self.colour = (15, 66, 51)
         self.radius = 10
         self.width = 4
-        self.xVelocity = 0
-        self.yVelovity=0
+        self.angularAcc= 0
 
     def draw(self):
         pygame.draw.circle(surface=screen, color=self.colour,
@@ -51,7 +50,7 @@ class circle:
         vertical = magnitude*math.sin(direction)
         horizontal = magnitude*math.cos(direction)
 
-        self.setPos(self.x+horizontal,self.y-vertical)
+        
 
 
 class platform:

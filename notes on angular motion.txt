@@ -1,0 +1,22 @@
+linear velocity (V) = change in distance/t
+
+angular displacement (rad (radians)) = Af-Ai
+angular velocity (w)= rad / time
+
+note: 1 radian is the same length as the raduis of the circle so a larger circle will have a greater linear velocity even if the angular displacement is the same
+
+period (T) = time/1 rotation 
+frequency (f) = rotions/time
+
+therefor T= 1/f
+and 
+because w= rad/T
+w= 2πr/T
+w=2πrf
+and w= 2πr/T
+
+
+angular acceleration (a) = (wf-wi)/t
+
+centripicul acceleration (Ac) = V^2/r= (wr)^2/r=w^2r
+
