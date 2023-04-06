@@ -20,3 +20,8 @@ angular acceleration (a) = (wf-wi)/t
 
 centripicul acceleration (Ac) = V^2/r= (wr)^2/r=w^2r
 
+linear momentum P = m*v
+
+angular momentum (L) = r*p
+                  l=m(r*Vlin)
+Vlin= rw
