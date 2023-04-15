@@ -1,3 +1,5 @@
 Add controls to shift the point of rotation in the middle of motion
 
 move the platfrom based on the force of the pendulumn
+
+change positioning to  revolve around te point (0,0) and move the opbjects in the draw function
