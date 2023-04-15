@@ -46,3 +46,30 @@ Inertia of a pendulumn will be = M * r^2
 
 
 Ftan= mass * atan
+
+
+
+Calculation of change in angular mass based on some of forces acting on it:
+Ftan= m* atan
+Ftan/m = atan
+Ftan/m = (Wf-Wi)/t
+t=1
+Ftan/m + Wi = Wf
+
+Ftan is actually Ftan(net)
+Ftan(net)= r * f1 * sin(θ)+ r * f2 * sin(θ)+...
+
+Wf = Fnet/m+Wi
+radf/t = Fnet/m + radi/t
+radf=Fnet/m+radi
+
+
+note the two final calculations are
+
+net torque = radius * force1 * sin(θ1)+ radius * force2 * sin(θ2)+...
+and
+final radian = net torque / mass + initail radian
+
+
+
+
