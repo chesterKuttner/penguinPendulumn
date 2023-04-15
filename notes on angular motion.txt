@@ -32,3 +32,9 @@ angular momentum L = Tangent Velocity * radius * mass
 Tangentile Velocity = (2*π*r)/T
 
 Tangentile Velocity = angular velocity*r
+
+angular momentum in a closed system is conserved (https://www.youtube.com/watch?v=iWSu6U0Ujs8)
+
+Torque (To) is the Tangentile component of force = 
+radius * force * sin(θ) 
+(where θ as the angle between the force and the radius)
