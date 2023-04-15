@@ -25,3 +25,10 @@ linear momentum P = m*v
 angular momentum (L) = r*p
                   l=m(r*Vlin)
 Vlin= rw
+
+
+angular momentum L = Tangent Velocity * radius * mass
+
+Tangentile Velocity = (2*π*r)/T
+
+Tangentile Velocity = angular velocity*r
