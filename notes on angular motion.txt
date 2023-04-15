@@ -38,3 +38,11 @@ angular momentum in a closed system is conserved (https://www.youtube.com/watch?
 Torque (To) is the Tangentile component of force = 
 radius * force * sin(θ) 
 (where θ as the angle between the force and the radius)
+
+Net Torque = sum of torques in the system
+
+Inertia of a pendulumn will be = M * r^2   
+(note this changes based on the distribution of the mass in relation to the radius)
+
+
+Ftan= mass * atan
