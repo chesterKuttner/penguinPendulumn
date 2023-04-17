@@ -18,18 +18,19 @@ class pendulumn:
     def __init__(self, mass, pendulumnLen) -> None:
         self.angle = math.radians(90)
         self.colour = (15, 66, 51)
-        self.radius = 10
-        self.width = 4
+        self.radius = 7
+        self.width = 0
         self.angularAcc = 0
         self.netTorque = 0
         self.mass = mass
         self.pendulumnLen = pendulumnLen
 
     def draw(self, point):
-        pygame.draw.circle(surface=screen, color=self.colour,
-                           width=self.width, radius=self.radius, center=self.getPos(point=point))
         pygame.draw.line(surface=screen, color=(247, 152, 98),
                          start_pos=point, end_pos=myPendulumn.getPos(point), width=3)
+        pygame.draw.circle(surface=screen, color=self.colour,
+                           width=self.width, radius=self.radius, center=self.getPos(point=point))
+        
 
     def getPos(self, point):
         x = int(self.pendulumnLen * math.cos(self.angle) + point[0])
