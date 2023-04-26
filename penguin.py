@@ -70,17 +70,17 @@ class platform:
         self.colour = (136, 8, 8)
         self.length = 50
         self.height = 10
-        self.x = screenWidth/2 - self.length/2
-        self.y = screenHeight/2
+        self.x = 0
+        self.y = 0
         self.borderWidth = 10
 
     def draw(self):
         pygame.draw.rect(surface=screen, color=self.colour, rect=pygame.Rect(
-            int(self.x), int(self.y), self.length, self.height), border_radius=self.borderWidth)
+            int(screenWidth/2 - self.length/2+self.x), screenHeight/2+int(self.y), self.length, self.height), border_radius=self.borderWidth)
 
     def getPos(self):
-        centerX = self.x + self.length/2
-        centerY = self.y + self.height/2
+        centerX = self.x + screenWidth/2 
+        centerY = self.y + self.height/2 + screenHeight/2
         return centerX, centerY
     
     def accelerate(self,force):
@@ -98,6 +98,9 @@ class platform:
 
         self.x += self.velocity 
         self.acceleration=0
+
+    def getVelocity(self):
+        return self.velocity
 
 
 myPendulumn = pendulumn(mass=2, pendulumnLen=100)
