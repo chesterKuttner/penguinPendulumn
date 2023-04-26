@@ -64,6 +64,9 @@ class pendulumn:
 
 class platform:
     def __init__(self) -> None:
+        self.velocity = 0
+        self.acceleration = 0
+        self.friction= 0.5
         self.colour = (136, 8, 8)
         self.length = 50
         self.height = 10
@@ -79,9 +82,22 @@ class platform:
         centerX = self.x + self.length/2
         centerY = self.y + self.height/2
         return centerX, centerY
+    
+    def accelerate(self,force):
+        self.acceleration=force
 
-    def move(self, speed):
-        self.x += speed
+    def move(self):
+        self.velocity += self.acceleration
+        
+        if abs(self.velocity)<self.friction:#not going with a greater force than friction
+            self.velocity=0
+        if self.velocity>0:#going forwards
+            self.velocity-=self.friction
+        if self.velocity<0:#going backwards
+            self.velocity+=self.friction
+
+        self.x += self.velocity 
+        self.acceleration=0
 
 
 myPendulumn = pendulumn(mass=2, pendulumnLen=100)
@@ -94,7 +110,15 @@ def drawAll():
     myPlat.draw()
 
 
+def playerMove(direction,speed):
+    if direction == 'left':
+        speed = -speed
+    myPlat.accelerate(speed)
+    
+
+
 myPendulumn.setAngle(math.radians(85))
+
 
 while running:
     # poll for events
@@ -120,9 +144,18 @@ while running:
 
     if abs(netTangentileForce) < abs(resistance):
         myPendulumn.applyTorque(-netTangentileForce)
+        myPendulumn.setAngle(math.radians(270))
     else:
         myPendulumn.applyTorque(resistance)
 
+
+    keys=pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        playerMove('left',1)
+    if keys[pygame.K_RIGHT]:
+        playerMove('right',1)
+
+    myPlat.move()
     myPendulumn.move()
     drawAll()
 
@@ -130,6 +163,6 @@ while running:
 
     clock.tick(60)  # limits FPS to 60
 
-    time.sleep(0.001)
+#time.sleep(0.001)
 
 pygame.quit()
