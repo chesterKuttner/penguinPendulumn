@@ -116,6 +116,9 @@ class platform:
 
     def getVelocity(self):
         return self.velocity
+    
+    def getAcceleration(self):
+        return self.acceleration
 
 
 myPendulumn = pendulumn(mass=2, pendulumnLen=100)
@@ -132,6 +135,10 @@ def playerMove(direction,speed):
     if direction == 'left':
         speed = -speed
     myPlat.accelerate(speed)
+    
+    #if going left the pendulumn is going to want to turn clockwise resulting in a negative torque which will be roughly proportional to the platforms velocity
+    myPendulumn.applyTorque((myPlat.getVelocity()+myPlat.getAcceleration())/10000)     #dont need an if here because the platforms Vf wioll be negative if we're going left
+    
     
 
 
@@ -151,10 +158,11 @@ while running:
     # myPendulumn.applyForce(0.0001, math.radians(0))
 
     # gravity
-    myPendulumn.applyForce(0.0001, math.radians(270))
+    myPendulumn.applyForce(0.00025, math.radians(270))
 
     # resistance of bearing
     netTangentileForce = myPendulumn.getTorque()
+
     if netTangentileForce < 0:
         resistance = 0.00005
     else:
@@ -162,7 +170,8 @@ while running:
 
     if abs(netTangentileForce) < abs(resistance):
         myPendulumn.applyTorque(-netTangentileForce)
-        myPendulumn.setAngle(math.radians(270))
+        if 269<math.radians(myPendulumn.getAngle())<271 or -89>math.radians(myPendulumn.getAngle())>-91:
+            myPendulumn.setAngle(math.radians(270))
     else:
         myPendulumn.applyTorque(resistance)
 
