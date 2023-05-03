@@ -73,8 +73,14 @@ class platform:
         self.x = 0
         self.y = 0
         self.borderWidth = 10
+        self.range = 300
+        self.rangeColour = (172, 131, 247)
 
     def draw(self):
+        #draw outer rang box
+        pygame.draw.rect(surface=screen, color=self.rangeColour, rect=pygame.Rect(
+            int(screenWidth/2 - self.range/2), screenHeight/2+int(self.y), self.range, self.height), border_radius=self.borderWidth)
+        #draw platform
         pygame.draw.rect(surface=screen, color=self.colour, rect=pygame.Rect(
             int(screenWidth/2 - self.length/2+self.x), screenHeight/2+int(self.y), self.length, self.height), border_radius=self.borderWidth)
 
@@ -96,7 +102,16 @@ class platform:
         if self.velocity<0:#going backwards
             self.velocity+=self.friction
 
-        self.x += self.velocity 
+        #if within range
+        if (abs(self.x+self.velocity)+self.length/2)>self.range/2:
+            if (self.x+self.velocity)>0:
+                self.x=self.range/2-self.length/2
+            else:
+                self.x=self.length/2-self.range/2
+            self.velocity=0
+        else:
+            self.x += self.velocity 
+    
         self.acceleration=0
 
     def getVelocity(self):
