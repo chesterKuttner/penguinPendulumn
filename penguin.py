@@ -13,19 +13,20 @@ screenHeight = 720
 #forces
 ballbearingResistance = 0.00005
 gravity=0.00025
-l = 10000 #inverse factor of the platforms velocity that relates to the change in torque
+l = 4000 #inverse factor of the platforms velocity that relates to the change in torque
 
 #platform params
-platformRange = 300
+platformRange = 500
 platformFriction = 0.5
-platformSpeed = 1
+platformSpeed = 0.75
 
 #pendulumn params
-pendulumnMass=2
+pendulumnMass=3
 pendulumnLen = 100
 
 
 screen = pygame.display.set_mode((screenWidth, screenHeight))
+pygame.display.set_caption('Penguins and Pendulumns')
 clock = pygame.time.Clock()
 running = True
 
@@ -139,13 +140,32 @@ class platform:
 
 myPendulumn = pendulumn(mass=pendulumnMass, pendulumnLen=pendulumnLen)
 myPlat = platform(range=platformRange, friction=platformFriction)
+timeStart = time.time()
 
 
-def drawAll():
-    screen.fill((93, 63, 211))
+
+def drawAll(time,score):
+    backgroundColour = (93, 63, 211)
+    #create blank screen
+    screen.fill(backgroundColour)
+
+    #draw pendulumn and platform 
     myPendulumn.draw(point=myPlat.getPos())
     myPlat.draw()
 
+    #render time
+    font = pygame.font.Font('freesansbold.ttf', 24)
+    text = font.render(f'Time (s): {time}', True, (0, 0, 128),backgroundColour)
+    textRect = text.get_rect()
+    textRect.bottomleft = (0,screenHeight)
+    screen.blit(text, textRect)
+
+    #render score
+    font = pygame.font.Font('freesansbold.ttf', 24)
+    text = font.render(f'Score: {score}%', True, (0, 0, 128),backgroundColour)
+    textRect = text.get_rect()
+    textRect.bottomleft = (0,screenHeight-30)
+    screen.blit(text, textRect)
 
 def playerMove(direction,speed):
     if direction == 'left':
@@ -159,7 +179,8 @@ def playerMove(direction,speed):
 
 
 myPendulumn.setAngle(math.radians(85))
-
+cycles=0
+cyclesAbove=0
 
 while running:
     # poll for events
@@ -198,11 +219,16 @@ while running:
     #now we have calculated everything since the previous cycle we want to change to our new values
     myPlat.move()
     myPendulumn.move()
-
-    drawAll()
+    
+    cycles+=1
+    if myPendulumn.getPos(myPlat.getPos())[1]<myPlat.getPos()[1]: #if pendulumnabove platform (remember y axis is inverted on the canvas)
+        cyclesAbove+=1
+    
+    drawAll(time=round(float(time.time())-timeStart,2),score=round(100*cyclesAbove/cycles))
 
     #pygame draws wierdly so we want to flip it
     pygame.display.flip()
+
 
     clock.tick(60)  # limits FPS to 60
 
