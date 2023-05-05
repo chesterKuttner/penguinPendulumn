@@ -4,10 +4,26 @@ import time
 
 pygame.init()
 
+##declaring our perameters
+
+#canvas
 screenWidth = 1280
 screenHeight = 720
+
+#forces
+ballbearingResistance = 0.00005
+gravity=0.00025
+l = 10000 #inverse factor of the platforms velocity that relates to the change in torque
+
+#platform params
+platformRange = 300
+platformFriction = 0.5
+platformSpeed = 1
+
+#pendulumn params
+pendulumnMass=2
 pendulumnLen = 100
-pendulumnMass = 1
+
 
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 clock = pygame.time.Clock()
@@ -63,17 +79,17 @@ class pendulumn:
 
 
 class platform:
-    def __init__(self) -> None:
+    def __init__(self, range,friction) -> None:
         self.velocity = 0
         self.acceleration = 0
-        self.friction= 0.5
+        self.friction= friction
         self.colour = (136, 8, 8)
         self.length = 50
         self.height = 10
         self.x = 0
         self.y = 0
         self.borderWidth = 10
-        self.range = 300
+        self.range = range
         self.rangeColour = (172, 131, 247)
 
     def draw(self):
@@ -121,8 +137,8 @@ class platform:
         return self.acceleration
 
 
-myPendulumn = pendulumn(mass=2, pendulumnLen=100)
-myPlat = platform()
+myPendulumn = pendulumn(mass=pendulumnMass, pendulumnLen=pendulumnLen)
+myPlat = platform(range=platformRange, friction=platformFriction)
 
 
 def drawAll():
@@ -137,7 +153,7 @@ def playerMove(direction,speed):
     myPlat.accelerate(speed)
     
     #if going left the pendulumn is going to want to turn clockwise resulting in a negative torque which will be roughly proportional to the platforms velocity
-    myPendulumn.applyTorque((myPlat.getVelocity()+myPlat.getAcceleration())/10000)     #dont need an if here because the platforms Vf wioll be negative if we're going left
+    myPendulumn.applyTorque((myPlat.getVelocity()+myPlat.getAcceleration())/l)     #dont need an if here because the platforms Vf wioll be negative if we're going left
     
     
 
@@ -154,19 +170,16 @@ while running:
 
     # fill the screen with a color to wipe away anything from last frame
 
-    # myPlat.move(1)
-    # myPendulumn.applyForce(0.0001, math.radians(0))
-
     # gravity
-    myPendulumn.applyForce(0.00025, math.radians(270))
+    myPendulumn.applyForce(gravity, math.radians(270))
 
     # resistance of bearing
     netTangentileForce = myPendulumn.getTorque()
 
     if netTangentileForce < 0:
-        resistance = 0.00005
+        resistance = ballbearingResistance
     else:
-        resistance = -0.00005
+        resistance = -ballbearingResistance
 
     if abs(netTangentileForce) < abs(resistance):
         myPendulumn.applyTorque(-netTangentileForce)
@@ -178,14 +191,17 @@ while running:
 
     keys=pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
-        playerMove('left',1)
+        playerMove('left',platformSpeed)
     if keys[pygame.K_RIGHT]:
-        playerMove('right',1)
+        playerMove('right',platformSpeed)
 
+    #now we have calculated everything since the previous cycle we want to change to our new values
     myPlat.move()
     myPendulumn.move()
+
     drawAll()
 
+    #pygame draws wierdly so we want to flip it
     pygame.display.flip()
 
     clock.tick(60)  # limits FPS to 60
