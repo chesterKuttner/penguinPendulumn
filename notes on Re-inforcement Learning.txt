@@ -1,2 +1,0 @@
-Re-inforcement learning:
-http://people.eecs.berkeley.edu/~pabbeel/nips-tutorial-policy-optimization-Schulman-Abbeel.pdf
