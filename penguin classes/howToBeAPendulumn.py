@@ -2,11 +2,9 @@ import math
 
 
 class pendulumn:
-    def __init__(self, mass, pendulumnLen) -> None:
-        self.angle = math.radians(90)
-        self.colour = (15, 66, 51)
+    def __init__(self, mass, pendulumnLen,startingAngleDeg) -> None:
+        self.angle = math.radians(startingAngleDeg)
         self.radius = 7
-        self.width = 0
         self.angularAcc = 0
         self.netTorque = 0
         self.mass = mass
