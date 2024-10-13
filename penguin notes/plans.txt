@@ -1,0 +1,8 @@
+Create a program running off a class and decisions from variables not from your inputs
+
+you need a "session"
+and you need a feed of the session to a class
+
+
+either you could have a session that takes in a user and then calls the users functions and stuff
+or create a user that calls the sessions and pulls the data back**
