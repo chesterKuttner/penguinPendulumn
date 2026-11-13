@@ -16,7 +16,7 @@ The value of python objects for complex simulation objects.
 
 ### Goal
 
-To create a neaural network that can balance the pendulmn by moving the pivot point.
+To create a neural network that can balance the pendulmn by moving the pivot point.
 
 ### What I've learnt
 
